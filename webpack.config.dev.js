@@ -45,21 +45,36 @@ module.exports = (env) => {
             {
               test: /\.(js|jsx)$/,
               exclude: /(node_modules)/,
-              use: {
-                loader: 'babel-loader',
-                options: {
-                  presets: ['env', 'react'],
-                  plugins: [
-                    'transform-runtime',
-                    'transform-class-properties',
-                  ],
+              use: [
+                {
+                  loader: require.resolve('eslint-loader'),
+                  options: {
+                    failOnError: true,
+                  },
                 },
-              },
+                {
+                  loader: require.resolve('babel-loader'),
+                  options: {
+                    presets: [
+                      require.resolve('babel-preset-env'),
+                      require.resolve('babel-preset-react'),
+                    ],
+                    plugins: [
+                      require.resolve(
+                        'babel-plugin-transform-runtime',
+                      ),
+                      require.resolve(
+                        'babel-plugin-transform-class-properties',
+                      ),
+                    ],
+                  },
+                },
+              ],
             },
             {
               test: /\.(png|svg|jpg|gif)$/,
               use: {
-                loader: 'file-loader',
+                loader: require.resolve('file-loader'),
                 options: {
                   name: '[name].[ext]',
                   outputPath: 'imgs/',
@@ -70,15 +85,15 @@ module.exports = (env) => {
               test: /\.(le|c)ss$/,
               use: [
                 MiniCssExtractPlugin.loader,
-                'css-loader',
+                require.resolve('css-loader'),
                 {
-                  loader: 'postcss-loader',
+                  loader: require.resolve('postcss-loader'),
                   options: {
                     plugins: () => [Autoprefixer],
                   },
                 },
                 {
-                  loader: 'less-loader',
+                  loader: require.resolve('less-loader'),
                   options: {
                     javascriptEnabled: true,
                   },

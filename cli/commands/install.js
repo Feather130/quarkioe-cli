@@ -1,5 +1,6 @@
-const options = require('../../lib/options');
 const shell = require('shelljs');
+const options = require('../../lib/options');
+
 
 module.exports.command = (program) => {
   const programs = program
